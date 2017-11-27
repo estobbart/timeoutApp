@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+	<meta content="text/html" charset="utf-8" http-equiv="content-type">
+
+    <style>
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+        }
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        div {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+</head>
+  <body>
+      <script>
+          document.addEventListener("DOMContentLoaded", function(evt) {
+              let xhr = new XMLHttpRequest();
+              xhr.open("get", "http://localhost:9001");
+
+              // 2s, remove to use XHR's default timeout of 0 (no timeout)
+              xhr.timeout = 0;
+
+              xhr.ontimeout = () => {
+                  console.error("XMLHttpRequest#ontimeout @:"  + deltaFromSend() + " status: " + xhr.status);
+              };
+
+              xhr.onerror = () => {
+                  console.error("XMLHttpRequest#onerror @:" + deltaFromSend() + " status: " + xhr.status);
+              };
+
+              xhr.onload = () => {
+                  console.log("XMLHttpRequest#onload @:" + deltaFromSend() + " status: " + xhr.status);
+              };
+              xhr.send();
+              let deltaFromSend = (() => {
+                  let start = Date.now();
+                  return () => {
+                      return (Date.now() - start).toString();
+                  }
+              })();
+
+         });
+      </script>
+  </body>
+</html>
